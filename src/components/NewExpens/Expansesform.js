@@ -2,30 +2,54 @@ import React, { useState } from "react";
 
 import "./ExpanseForm.css";
 
-const ExpanseForm = (props) => {
+const ExpenseForm = (props) => {
   const [enteredTitle, setenteredTitle] = useState("");
   const [enteredDate, setenteredDate] = useState("");
   const [enteredAmount, setenteredAmount] = useState("");
+  // const [userInput, setUserInput] = useState({
+  //   title: "",
+  //   amount: "",
+  //   date: "",
+  // });
 
   const titleChangeHeandler = (event) => {
     setenteredTitle(event.target.value);
+    // setUserInput((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     title: event.target.value,
+    //   };
+    // });
   };
   const amountChangeHeandler = (event) => {
     setenteredAmount(event.target.value);
+    // setUserInput((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     amount: +event.target.value,
+    //   };
+    // });
   };
   const dateChangeHeandler = (event) => {
     setenteredDate(event.target.value);
+    // setUserInput((prevState) => {
+    //   return {
+    //     ...prevState,
+    //     date: new Date(event.target.value),
+    //   };
+    // });
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    // const FormData = userInput;
+    // props.onSvaeExpenseData(FormData);
 
     const expenseData = {
       title: enteredTitle,
       amount: enteredAmount,
-      data: new Date(enteredDate),
+      data: new Date(enteredDate).toLocaleString(),
     };
-
     props.onSvaeExpenseData(expenseData);
     setenteredTitle("");
     setenteredDate(" ");
@@ -69,4 +93,4 @@ const ExpanseForm = (props) => {
     </form>
   );
 };
-export default ExpanseForm;
+export default ExpenseForm;

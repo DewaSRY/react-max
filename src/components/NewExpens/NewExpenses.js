@@ -1,6 +1,6 @@
 import React from "react";
 
-import ExpanseForm from "./Expansesform";
+import ExpenseForm from "./Expansesform";
 import "./NewExpenses.css";
 
 const NewExpenses = (props) => {
@@ -13,7 +13,7 @@ const NewExpenses = (props) => {
   };
   return (
     <div className="new-expense ">
-      <ExpanseForm onSvaeExpenseData={svaeExpenseDataHendler} />
+      <ExpenseForm onSvaeExpenseData={svaeExpenseDataHendler} />
     </div>
   );
 };
