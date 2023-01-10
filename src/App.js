@@ -1,43 +1,36 @@
-import ExpenseItem  from "./components/Expenseitem";
-import './App.css'
+import Expense from "./components/Expenses/Expense";
+import NewExpenses from "./components/NewExpens/NewExpenses";
+import "./App.css";
 const expenses = [
   {
-    id: 'e1',
-    title: 'Toilet Paper',
+    id: "e1",
+    title: "Toilet Paper",
     amount: 94.12,
     date: new Date(2020, 7, 14),
   },
-  { id: 'e2', title: 'New TV', amount: 799.49, date: new Date(2021, 2, 12) },
+  { id: "e2", title: "New TV", amount: 799.49, date: new Date(2021, 2, 12) },
   {
-    id: 'e3',
-    title: 'Car Insurance',
+    id: "e3",
+    title: "Car Insurance",
     amount: 294.67,
     date: new Date(2021, 2, 28),
   },
   {
-    id: 'e4',
-    title: 'New Desk (Wooden)',
+    id: "e4",
+    title: "New Desk (Wooden)",
     amount: 450,
     date: new Date(2021, 5, 12),
   },
 ];
-const expenseAllItem =(expenses=>{
-  return expenses.map(expen=>
-    <div className="expenses ">
- <ExpenseItem
-    title={expen.title}
-    amount={expen.amount}
-    date={expen.date}
-    />
-    </div>
-
-  )
-})
+const addExpenseHeandler = (expenses) => {
+  console.log("In app.js");
+  console.log(expenses);
+};
 function App() {
   return (
     <div>
-      <h2>Let's get started!</h2>
-      {expenseAllItem(expenses)}
+      <NewExpenses onAddExpennse={addExpenseHeandler} />
+      <Expense items={expenses} />
     </div>
   );
 }
