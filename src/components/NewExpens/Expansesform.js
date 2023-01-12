@@ -2,58 +2,33 @@ import React, { useState } from "react";
 
 import "./ExpanseForm.css";
 
-const ExpenseForm = (props) => {
-  const [enteredTitle, setenteredTitle] = useState("");
-  const [enteredDate, setenteredDate] = useState("");
-  const [enteredAmount, setenteredAmount] = useState("");
-  // const [userInput, setUserInput] = useState({
-  //   title: "",
-  //   amount: "",
-  //   date: "",
-  // });
+const Expanse_form_default = {
+  title: "",
+  amount: "",
+  date: "",
+};
 
-  const titleChangeHeandler = (event) => {
-    setenteredTitle(event.target.value);
-    // setUserInput((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     title: event.target.value,
-    //   };
-    // });
-  };
-  const amountChangeHeandler = (event) => {
-    setenteredAmount(event.target.value);
-    // setUserInput((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     amount: +event.target.value,
-    //   };
-    // });
-  };
-  const dateChangeHeandler = (event) => {
-    setenteredDate(event.target.value);
-    // setUserInput((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     date: new Date(event.target.value),
-    //   };
-    // });
+const ExpenseForm = (props) => {
+  const [userInput, setUserInput] = useState(Expanse_form_default);
+  const { title, amount, date } = userInput;
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setUserInput({ ...userInput, [name]: value });
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
     // const FormData = userInput;
-    // props.onSvaeExpenseData(FormData);
 
     const expenseData = {
-      title: enteredTitle,
-      amount: enteredAmount,
-      data: new Date(enteredDate).toLocaleString(),
+      title: title,
+      amount: amount,
+      date: new Date(date),
     };
     props.onSvaeExpenseData(expenseData);
-    setenteredTitle("");
-    setenteredDate(" ");
-    setenteredAmount("");
+    setUserInput(Expanse_form_default);
   };
   return (
     <form onSubmit={submitHandler}>
@@ -61,16 +36,18 @@ const ExpenseForm = (props) => {
         <div className="new-expense__control ">
           <label>Title</label>
           <input
-            value={enteredTitle}
-            onChange={titleChangeHeandler}
+            value={title}
+            name="title"
+            onChange={handleChange}
             type="text"
           />
         </div>
         <div className="new-expense__control ">
           <label>Amount</label>
           <input
-            value={enteredAmount}
-            onChange={amountChangeHeandler}
+            value={amount}
+            name="amount"
+            onChange={handleChange}
             type="number"
             min="0.01"
             step="0.01"
@@ -79,8 +56,9 @@ const ExpenseForm = (props) => {
         <div className="new-expense__control ">
           <label>Date</label>
           <input
-            value={enteredDate}
-            onChange={dateChangeHeandler}
+            value={date}
+            name="date"
+            onChange={handleChange}
             type="date"
             min="2019-01-01"
             max="2024-12-31"
