@@ -11,20 +11,26 @@ function Expense({ items }) {
     console.log(filterDate);
     setFilterYeard(filterDate);
   };
+  const FilterExpenses = items.filter((item) => {
+    return item.date.toLocaleString().includes(filterYear);
+  });
+  const expenses = FilterExpenses.map((expenses) => {
+    return (
+      <ExpenseItem
+        key={expenses.id}
+        title={expenses.title}
+        amount={expenses.amount}
+        date={expenses.date}
+      />
+    );
+  });
+  const checkExpenseFalue = FilterExpenses.length === 0 ? <h1>hallo</h1>  :expenses ;
 
-  console.log(items);
-
+  
   return (
     <Card className="expenses">
       <ExpensesFilter selected={filterYear} onFilterDate={filterDateHeandler} />
-      {items.map((expenses) => (
-        <ExpenseItem
-          key={expenses.id}
-          title={expenses.title}
-          amount={expenses.amount}
-          date={expenses.date}
-        />
-      ))}
+      {checkExpenseFalue}
     </Card>
   );
 }
