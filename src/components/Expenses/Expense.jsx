@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ExpenseItem from "./Expenseitem";
 import Card from "../UI/card";
 import ExpensesFilter from "./ExpepensesFilter";
+import ExpensesChart from "./Expenses-bar";
 import "./Expense.css";
 
 function Expense({ items }) {
@@ -24,12 +25,17 @@ function Expense({ items }) {
       />
     );
   });
-  const checkExpenseFalue = FilterExpenses.length === 0 ? <h1>hallo</h1>  :expenses ;
+  const checkExpenseFalue =
+    FilterExpenses.length === 0 ? (
+      <h1 className="expenses-list__fallback ">hallo</h1>
+    ) : (
+      expenses
+    );
 
-  
   return (
     <Card className="expenses">
       <ExpensesFilter selected={filterYear} onFilterDate={filterDateHeandler} />
+      <ExpensesChart expenses={FilterExpenses} />
       {checkExpenseFalue}
     </Card>
   );

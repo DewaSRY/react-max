@@ -27,7 +27,6 @@ const dumyDeta = [
 
 function App() {
   const [expenses, setexpenses] = useState(dumyDeta);
-
   const addExpenseHeandler = (expenses) => {
     setexpenses((prevExpenses) => {
       return [expenses, ...prevExpenses];
