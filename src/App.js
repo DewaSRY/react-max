@@ -1,41 +1,23 @@
 import React, { useState } from "react";
-import Expense from "./components/Expenses/Expense";
-import NewExpenses from "./components/NewExpens/NewExpenses";
-import "./App.css";
-
-const dumyDeta = [
-  {
-    id: "e1",
-    title: "Toilet Paper",
-    amount: 94.12,
-    date: new Date(2020, 7, 14),
-  },
-  { id: "e2", title: "New TV", amount: 799.49, date: new Date(2021, 2, 12) },
-  {
-    id: "e3",
-    title: "Car Insurance",
-    amount: 294.67,
-    date: new Date(2021, 2, 28),
-  },
-  {
-    id: "e4",
-    title: "New Desk (Wooden)",
-    amount: 450,
-    date: new Date(2021, 5, 12),
-  },
-];
-
+import UserList from "./components/user/UserList.component";
+import Adduser from "./components/user/user-component";
 function App() {
-  const [expenses, setexpenses] = useState(dumyDeta);
-  const addExpenseHeandler = (expenses) => {
-    setexpenses((prevExpenses) => {
-      return [expenses, ...prevExpenses];
+  const [userList, setuserList] = useState([]);
+
+  const addUserHeandler = ({ name, age }) => {
+    setuserList((prevUserList) => {
+      return [
+        ...prevUserList,
+        { name: name, age: age, id: Math.random().toString() },
+      ];
     });
   };
+  console.log(userList);
+
   return (
     <div>
-      <NewExpenses onAddExpennse={addExpenseHeandler} />
-      <Expense items={expenses} />
+      <Adduser onAddUser={addUserHeandler} />
+      <UserList users={userList} />
     </div>
   );
 }
