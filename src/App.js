@@ -1,24 +1,27 @@
-import React, { useState } from "react";
-import UserList from "./components/user/UserList.component";
-import Adduser from "./components/user/user-component";
-function App() {
-  const [userList, setuserList] = useState([]);
+import { useState } from "react";
+import Header from "./component/LAYOUT/Header";
+import Meals from "./component/Meals/Meals";
+import Cart from "./component/Cart/Cart";
+import CartProvider from "./Store-contex/Cart-provider";
 
-  const addUserHeandler = ({ name, age }) => {
-    setuserList((prevUserList) => {
-      return [
-        ...prevUserList,
-        { name: name, age: age, id: Math.random().toString() },
-      ];
-    });
+function App() {
+  const [cartIsShow, setCartIsShow] = useState(false);
+
+  const showCartHeandler = () => {
+    setCartIsShow(true);
   };
-  console.log(userList);
+  const hidenCartHeandler = () => {
+    setCartIsShow(false);
+  };
 
   return (
-    <div>
-      <Adduser onAddUser={addUserHeandler} />
-      <UserList users={userList} />
-    </div>
+    <CartProvider>
+      {cartIsShow && <Cart onClose={hidenCartHeandler} />}
+      <Header onShowCart={showCartHeandler} />
+      <main>
+        <Meals />
+      </main>
+    </CartProvider>
   );
 }
 
