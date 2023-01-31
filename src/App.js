@@ -1,42 +1,20 @@
-import React, { useState } from "react";
-import Expense from "./components/Expenses/Expense";
-import NewExpenses from "./components/NewExpens/NewExpenses";
-import "./App.css";
-
-const dumyDeta = [
-  {
-    id: "e1",
-    title: "Toilet Paper",
-    amount: 94.12,
-    date: new Date(2020, 7, 14),
-  },
-  { id: "e2", title: "New TV", amount: 799.49, date: new Date(2021, 2, 12) },
-  {
-    id: "e3",
-    title: "Car Insurance",
-    amount: 294.67,
-    date: new Date(2021, 2, 28),
-  },
-  {
-    id: "e4",
-    title: "New Desk (Wooden)",
-    amount: 450,
-    date: new Date(2021, 5, 12),
-  },
-];
-
+import { Fragment, useState } from "react";
+import Header from "./Layout/Header";
+import Meals from "./Components/Meals/Meals";
+import Cart from "./Components/Cart/Cart";
 function App() {
-  const [expenses, setexpenses] = useState(dumyDeta);
-  const addExpenseHeandler = (expenses) => {
-    setexpenses((prevExpenses) => {
-      return [expenses, ...prevExpenses];
-    });
+  const [cartIsShow, setCartIsShow] = useState(false);
+  const CartToggleHeandler = () => {
+    setCartIsShow(!cartIsShow);
   };
   return (
-    <div>
-      <NewExpenses onAddExpennse={addExpenseHeandler} />
-      <Expense items={expenses} />
-    </div>
+    <Fragment>
+      {cartIsShow && <Cart onCartHeandler={CartToggleHeandler} />}
+      <Header onCartHeandler={CartToggleHeandler} />
+      <main>
+        <Meals />
+      </main>
+    </Fragment>
   );
 }
 
