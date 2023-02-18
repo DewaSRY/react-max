@@ -1,22 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import ErrorModal from "../UI/ErrorModal";
-import InputForm from "../UI/InpuntForm";
+import InputField from "../UI/InputField";
 import classes from "./AddUser.module.css";
 
-const ENTERED_FORM = {
+const ENTERED_FIELD = {
   username: "",
   age: "",
 };
 
-export default function AddUser({ onAddUser }) {
-  const [enteeredForm, setEnteredForm] = useState(ENTERED_FORM);
-  const { username, age } = enteeredForm;
-  const [error, setError] = useState(null);
+const AddUser = ({ onAddUser }) => {
+  const [enteredField, setEnteredField] = useState(ENTERED_FIELD);
+  const { username, age } = enteredField;
+  const [error, setError] = useState();
 
-  const addUserSumbit = (event) => {
+  const addUserHandler = (event) => {
     event.preventDefault();
     if (username.trim().length === 0 || age.trim().length === 0) {
       setError({
@@ -32,15 +32,15 @@ export default function AddUser({ onAddUser }) {
       });
       return;
     }
-
-    onAddUser(enteeredForm);
-    setEnteredForm(ENTERED_FORM);
+    onAddUser(enteredField);
+    setEnteredField(ENTERED_FIELD);
   };
 
-  const EnteredFildHeandler = (event) => {
+  const enteredChangeHandler = (event) => {
     const { name, value } = event.target;
-    setEnteredForm({ ...enteeredForm, [name]: value });
+    setEnteredField({ ...enteredField, [name]: value });
   };
+
   const errorHandler = () => setError(null);
 
   if (error) {
@@ -54,27 +54,28 @@ export default function AddUser({ onAddUser }) {
   }
 
   return (
-    <div>
+    <>
       <Card className={classes.input}>
-        <form onSubmit={addUserSumbit}>
-          <InputForm
+        <form onSubmit={addUserHandler}>
+          <InputField
             label="Username"
             name="username"
             type="text"
             value={username}
-            onChange={EnteredFildHeandler}
+            onChange={enteredChangeHandler}
           />
-          <InputForm
-            label="Age"
+          <InputField
+            label="Age (Years)"
             name="age"
             type="number"
             value={age}
-            onChange={EnteredFildHeandler}
+            onChange={enteredChangeHandler}
           />
-
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </div>
+    </>
   );
-}
+};
+
+export default AddUser;
