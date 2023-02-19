@@ -1,41 +1,81 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, createContext, useReducer } from "react";
+export const createAction = (type, payload) => ({ type, payload });
+//       passwordValid: action.val.trim().length > 6
+//      emailValid: state.value.includes("@") }
 
-const AuthContext = React.createContext({
+const AuthContext = createContext({
   isLoggedIn: false,
+  passwordValid: true,
+  emailValid: true,
   onLogout: () => {},
   onLogin: (email, password) => {},
 });
+const ACTION_FORM = {
+  SET_FORM: "SET_FORM",
+};
 
-export const AuthContextProvider = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const INITIAL_FORM = {
+  isLoggedIn: false,
+  passwordValid: true,
+  emailValid: true,
+  // email: "",
+  // password: "",
+};
+const AuthReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case ACTION_FORM.SET_FORM:
+      return {
+        ...state,
+        ...payload,
+      };
+    default:
+      throw new Error(`unheandel type ${type} in userReducer`);
+  }
+};
+
+export const AuthContextProvider = ({ children }) => {
+  const [{ isLoggedIn, passwordValid, emailValid }, dispact] = useReducer(
+    AuthReducer,
+    INITIAL_FORM
+  );
+  console.log("passwordValid", passwordValid);
+  console.log("emailValid", emailValid);
+  const setIsLoggedIn = (bool) =>
+    dispact(createAction(ACTION_FORM.SET_FORM, { isLoggedIn: bool }));
+  const setValidation = (email, password) => {
+    const setEmail = email.includes("@");
+    const setPassword = password.trim().length > 6;
+    const payload = {
+      passwordValid: setPassword,
+      emailValid: setEmail,
+    };
+    dispact(createAction(ACTION_FORM.SET_FORM, payload));
+  };
   useEffect(() => {
-    const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
-    if (storedUserLoggedInInformation === "1") {
-      setIsLoggedIn(true);
-    }
+    const localUser = localStorage.getItem("isLoggedIn");
+    if (localUser === "1") setIsLoggedIn(true);
   }, []);
-
-  const logoutHandler = () => {
+  const onLogout = () => {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
   };
-
-  const loginHandler = () => {
-    localStorage.setItem("isLoggedIn", "1");
-    setIsLoggedIn(true);
+  const onLogin = (email, password) => {
+    setValidation(email, password);
+    if (passwordValid && emailValid) {
+      console.log("passwordValid1", passwordValid);
+      console.log("emailValid1", emailValid);
+      localStorage.setItem("isLoggedIn", "1");
+      setIsLoggedIn(true);
+    }
   };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: isLoggedIn,
-        onLogout: logoutHandler,
-        onLogin: loginHandler,
-      }}
-    >
-      {props.children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    isLoggedIn,
+    setValidation,
+    onLogout,
+    onLogin,
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

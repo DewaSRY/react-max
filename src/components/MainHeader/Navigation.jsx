@@ -1,9 +1,9 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 import AuthContext from "../../store/auth-context";
 import classes from "./Navigation.module.css";
 
-export default function Navigation() {
+const Navigation = () => {
   const { isLoggedIn, onLogout } = useContext(AuthContext);
   if (!isLoggedIn) return;
   return (
@@ -21,4 +21,6 @@ export default function Navigation() {
       </ul>
     </nav>
   );
-}
+};
+
+export default Navigation;
